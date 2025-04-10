@@ -20,6 +20,7 @@ import { useUser } from "@/context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import { UserPlus, Loader2 } from "lucide-react";
 
+// Define a schema that matches the required User properties
 const formSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -30,12 +31,15 @@ const formSchema = z.object({
   pinCode: z.string().min(5, "PIN code must be at least 5 characters"),
 });
 
+// This type ensures all fields are required, matching what UserContext expects
+type FormValues = z.infer<typeof formSchema>;
+
 const Register = () => {
   const { register } = useUser();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
@@ -48,9 +52,10 @@ const Register = () => {
     },
   });
   
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: FormValues) => {
     try {
       setIsSubmitting(true);
+      // Now the values object will have all required properties
       await register(values);
       navigate("/profile");
     } catch (error) {
