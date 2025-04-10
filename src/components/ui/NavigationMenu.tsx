@@ -54,7 +54,7 @@ export function NavigationMenu() {
             <Link to="/products" className="hover:text-primary font-medium">
               Categories
             </Link>
-            <Link to="/" className="hover:text-primary font-medium">
+            <Link to="/about" className="hover:text-primary font-medium">
               About
             </Link>
           </div>
@@ -163,7 +163,7 @@ export function NavigationMenu() {
               Categories
             </Link>
             <Link 
-              to="/" 
+              to="/about" 
               className="block py-2 hover:text-primary"
               onClick={() => setIsMenuOpen(false)}
             >

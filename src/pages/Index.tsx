@@ -22,9 +22,14 @@ const Index = () => {
             <p className="text-muted-foreground mb-6">
               Modern Boutique is dedicated to bringing you carefully curated products that combine quality, style, and sustainability. We believe in thoughtful consumption and supporting makers who care about their craft.
             </p>
-            <Button asChild>
-              <Link to="/products">Browse All Products</Link>
-            </Button>
+            <div className="flex gap-4 justify-center">
+              <Button asChild>
+                <Link to="/products">Browse Products</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/about">Learn More</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -46,7 +51,7 @@ const Index = () => {
               <ul className="space-y-2">
                 <li><Link to="/" className="hover:underline">Home</Link></li>
                 <li><Link to="/products" className="hover:underline">Shop</Link></li>
-                <li><Link to="/" className="hover:underline">About</Link></li>
+                <li><Link to="/about" className="hover:underline">About</Link></li>
                 <li><Link to="/" className="hover:underline">Contact</Link></li>
               </ul>
             </div>
