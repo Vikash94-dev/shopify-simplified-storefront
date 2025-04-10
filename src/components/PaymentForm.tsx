@@ -1,7 +1,7 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { useCart } from "@/context/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,41 +18,56 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { 
-  User, 
-  Home, 
-  Truck, 
-  ShieldCheck
+  CreditCard, 
+  ShieldCheck,
+  CheckCircle
 } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  address: z.string().min(5, "Address must be at least 5 characters"),
-  city: z.string().min(2, "City must be at least 2 characters"),
-  zipCode: z.string().min(5, "Zip code must be at least 5 characters"),
+  cardNumber: z.string().min(16, "Card number must be at least 16 digits").max(19),
+  cardName: z.string().min(2, "Name on card must be at least 2 characters"),
+  expiration: z.string().regex(/^\d{2}\/\d{2}$/, "Expiration date must be in MM/YY format"),
+  cvv: z.string().min(3, "CVV must be at least 3 digits").max(4),
 });
 
-export function CheckoutForm() {
-  const { cartItems, totalPrice } = useCart();
+export function PaymentForm() {
+  const { cartItems, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+  const shippingDetails = location.state?.shippingDetails || null;
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      address: "",
-      city: "",
-      zipCode: "",
+      cardNumber: "",
+      cardName: "",
+      expiration: "",
+      cvv: "",
     },
   });
   
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Navigate to payment page with shipping details
-    navigate("/payment", { state: { shippingDetails: values } });
+    // Process payment - in a real app, this would integrate with a payment gateway
+    toast({
+      title: "Payment Processed",
+      description: "Your payment has been successfully processed!",
+      duration: 3000,
+    });
+    
+    setTimeout(() => {
+      clearCart();
+      navigate("/payment-success");
+    }, 1000);
   };
+
+  React.useEffect(() => {
+    // Check if shipping details exist
+    if (!shippingDetails && cartItems.length > 0) {
+      // Redirect back to checkout if no shipping details
+      navigate("/checkout");
+    }
+  }, [shippingDetails, navigate, cartItems]);
 
   if (cartItems.length === 0) {
     return (
@@ -67,21 +82,48 @@ export function CheckoutForm() {
     <div className="grid md:grid-cols-3 gap-8">
       <div className="md:col-span-2">
         <Card className="p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <CreditCard className="mr-2" size={20} />
+            Payment Information
+          </h2>
+          
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <h2 className="text-xl font-semibold mb-4 flex items-center">
-                <User className="mr-2" size={20} />
-                Customer Information
-              </h2>
+              <FormField
+                control={form.control}
+                name="cardNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Card Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="4242 4242 4242 4242" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cardName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name on Card</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="firstName"
+                  name="expiration"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>Expiration Date</FormLabel>
                       <FormControl>
-                        <Input placeholder="John" {...field} />
+                        <Input placeholder="MM/YY" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -89,88 +131,36 @@ export function CheckoutForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="lastName"
+                  name="cvv"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Last Name</FormLabel>
+                      <FormLabel>CVV</FormLabel>
                       <FormControl>
-                        <Input placeholder="Doe" {...field} />
+                        <Input placeholder="123" type="password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="johndoe@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               
-              <h2 className="text-xl font-semibold mt-8 mb-4 flex items-center">
-                <Truck className="mr-2" size={20} />
-                Shipping Information
-              </h2>
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Input placeholder="123 Main St" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input placeholder="New York" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="zipCode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Zip Code</FormLabel>
-                      <FormControl>
-                        <Input placeholder="10001" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="flex items-center mt-4 p-4 bg-muted/50 rounded-md">
+                <ShieldCheck className="text-primary mr-2" size={20} />
+                <p className="text-sm text-muted-foreground">
+                  Your payment information is secure and encrypted
+                </p>
               </div>
-
+              
               <div className="flex justify-between mt-6">
                 <Button 
                   type="button" 
                   variant="outline"
-                  onClick={() => navigate("/cart")}
+                  onClick={() => navigate("/checkout")}
                 >
-                  Back to Cart
+                  Back to Shipping
                 </Button>
                 <Button type="submit">
-                  Continue to Payment
+                  Complete Payment
                 </Button>
               </div>
             </form>
