@@ -1,12 +1,31 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, X, Search } from "lucide-react";
+import { 
+  ShoppingCart, 
+  Menu, 
+  X, 
+  Search, 
+  User,
+  LogIn,
+  LogOut,
+  UserPlus
+} from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function NavigationMenu() {
   const { totalItems } = useCart();
+  const { user, isAuthenticated, logout } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -61,6 +80,54 @@ export function NavigationMenu() {
                 </Badge>
               )}
             </Link>
+            {/* User Profile/Login */}
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="p-2 hover:bg-muted rounded-full">
+                  <User size={20} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col">
+                      <span>{user?.name}</span>
+                      <span className="text-xs text-muted-foreground">{user?.email}</span>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>My Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sign Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="p-2 hover:bg-muted rounded-full">
+                  <User size={20} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
+                  <DropdownMenuItem asChild>
+                    <Link to="/login" className="cursor-pointer">
+                      <LogIn className="mr-2 h-4 w-4" />
+                      <span>Sign In</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/register" className="cursor-pointer">
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      <span>Create Account</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             <button
               className="p-2 hover:bg-muted rounded-full md:hidden"
               onClick={toggleMenu}
@@ -102,6 +169,44 @@ export function NavigationMenu() {
             >
               About
             </Link>
+            {!isAuthenticated && (
+              <>
+                <Link 
+                  to="/login" 
+                  className="block py-2 hover:text-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  to="/register" 
+                  className="block py-2 hover:text-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Create Account
+                </Link>
+              </>
+            )}
+            {isAuthenticated && (
+              <>
+                <Link 
+                  to="/profile" 
+                  className="block py-2 hover:text-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My Profile
+                </Link>
+                <button 
+                  className="block py-2 hover:text-primary w-full text-left"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    logout();
+                  }}
+                >
+                  Sign Out
+                </button>
+              </>
+            )}
           </div>
         )}
 

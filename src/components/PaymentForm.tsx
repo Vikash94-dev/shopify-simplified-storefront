@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -20,7 +21,8 @@ import { z } from "zod";
 import { 
   CreditCard, 
   ShieldCheck,
-  CheckCircle
+  CheckCircle,
+  Mail
 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
@@ -33,6 +35,7 @@ const formSchema = z.object({
 
 export function PaymentForm() {
   const { cartItems, totalPrice, clearCart } = useCart();
+  const { user } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
   const shippingDetails = location.state?.shippingDetails || null;
@@ -41,7 +44,7 @@ export function PaymentForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       cardNumber: "",
-      cardName: "",
+      cardName: user?.name || "",
       expiration: "",
       cvv: "",
     },
@@ -54,6 +57,23 @@ export function PaymentForm() {
       description: "Your payment has been successfully processed!",
       duration: 3000,
     });
+    
+    // Send verification email to user
+    if (user && user.email) {
+      // In a real app, this would be handled by a backend service
+      console.log(`Sending purchase confirmation email to ${user.email}`);
+      
+      toast({
+        title: "Order Confirmation Sent",
+        description: (
+          <div className="flex items-center gap-2">
+            <Mail className="h-4 w-4" />
+            <span>An order confirmation has been sent to {user.email}</span>
+          </div>
+        ),
+        duration: 4000,
+      });
+    }
     
     setTimeout(() => {
       clearCart();
