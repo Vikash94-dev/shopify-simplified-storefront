@@ -3,11 +3,16 @@ import React from "react";
 import { useCart } from "@/context/CartContext";
 import { CartItem } from "@/components/CartItem";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, ArrowRight, Trash } from "lucide-react";
 
 export function Cart() {
   const { cartItems, totalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
+  
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -62,7 +67,10 @@ export function Cart() {
             <span>${totalPrice.toFixed(2)}</span>
           </div>
           
-          <Button className="w-full flex items-center justify-center gap-2">
+          <Button 
+            className="w-full flex items-center justify-center gap-2"
+            onClick={handleCheckout}
+          >
             Proceed to Checkout
             <ArrowRight size={16} />
           </Button>
