@@ -8,13 +8,13 @@ export function Hero() {
   return (
     <section className="relative">
       {/* Hero Background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-amber-500/30 to-amber-700/30" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-amber-500/40 to-amber-700/40" />
       
       {/* Hero Image */}
       <div
         className="absolute inset-0 z-[-1] bg-cover bg-center"
         style={{
-          backgroundImage: "url(https://images.unsplash.com/photo-1501432781167-c0ccfd492297?q=80&w=2070)",
+          backgroundImage: "url(https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?q=80&w=2070)",
         }}
       />
       
