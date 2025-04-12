@@ -18,16 +18,16 @@ const Index = () => {
       <section className="py-12 bg-muted">
         <div className="container">
           <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">About Our Brand</h2>
+            <h2 className="text-3xl font-bold mb-4">About Our Snacks</h2>
             <p className="text-muted-foreground mb-6">
-              Modern Boutique is dedicated to bringing you carefully curated products that combine quality, style, and sustainability. We believe in thoughtful consumption and supporting makers who care about their craft.
+              Homemade Delights is dedicated to bringing you handcrafted snacks made with love and care. We use only the finest ingredients, traditional recipes, and artisanal techniques to create snacks that are both delicious and wholesome.
             </p>
             <div className="flex gap-4 justify-center">
               <Button asChild>
-                <Link to="/products">Browse Products</Link>
+                <Link to="/products">Browse Snacks</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link to="/about">Learn More</Link>
+                <Link to="/about">Our Story</Link>
               </Button>
             </div>
           </div>
@@ -40,9 +40,9 @@ const Index = () => {
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-lg font-bold mb-4">Modern Boutique</h3>
+              <h3 className="text-lg font-bold mb-4">Homemade Delights</h3>
               <p className="text-primary-foreground/80">
-                Quality products for modern living. Carefully sourced, thoughtfully designed.
+                Delicious handmade snacks crafted with love. Made with quality ingredients, traditional recipes, and a whole lot of care.
               </p>
             </div>
             
@@ -59,7 +59,7 @@ const Index = () => {
             <div>
               <h3 className="text-lg font-bold mb-4">Connect With Us</h3>
               <p className="text-primary-foreground/80 mb-4">
-                Sign up for our newsletter to get updates on new products and exclusive offers.
+                Sign up for our newsletter to get updates on new snacks and exclusive offers.
               </p>
               <div className="flex">
                 <input
@@ -75,7 +75,7 @@ const Index = () => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-primary-foreground/20 text-center text-primary-foreground/60">
-            <p>© {new Date().getFullYear()} Modern Boutique. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Homemade Delights. All rights reserved.</p>
           </div>
         </div>
       </footer>
