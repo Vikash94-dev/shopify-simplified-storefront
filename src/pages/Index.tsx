@@ -36,12 +36,12 @@ const Index = () => {
       
       <NewArrivalsSection />
       
-      <footer className="bg-primary text-primary-foreground py-12">
+      <footer className="bg-amber-600 text-white py-12">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h3 className="text-lg font-bold mb-4">Homemade Delights</h3>
-              <p className="text-primary-foreground/80">
+              <p className="text-white/80">
                 Delicious handmade snacks crafted with love. Made with quality ingredients, traditional recipes, and a whole lot of care.
               </p>
             </div>
@@ -58,7 +58,7 @@ const Index = () => {
             
             <div>
               <h3 className="text-lg font-bold mb-4">Connect With Us</h3>
-              <p className="text-primary-foreground/80 mb-4">
+              <p className="text-white/80 mb-4">
                 Sign up for our newsletter to get updates on new snacks and exclusive offers.
               </p>
               <div className="flex">
@@ -67,14 +67,14 @@ const Index = () => {
                   placeholder="Your email"
                   className="flex-grow px-4 py-2 text-foreground rounded-l-md focus:outline-none"
                 />
-                <Button className="rounded-l-none bg-secondary text-secondary-foreground">
+                <Button className="rounded-l-none bg-amber-700 text-white hover:bg-amber-800">
                   Subscribe
                 </Button>
               </div>
             </div>
           </div>
           
-          <div className="mt-8 pt-8 border-t border-primary-foreground/20 text-center text-primary-foreground/60">
+          <div className="mt-8 pt-8 border-t border-white/20 text-center text-white/60">
             <p>© {new Date().getFullYear()} Homemade Delights. All rights reserved.</p>
           </div>
         </div>

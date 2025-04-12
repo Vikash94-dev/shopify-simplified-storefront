@@ -8,13 +8,13 @@ export function Hero() {
   return (
     <section className="relative">
       {/* Hero Background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-primary/30 to-secondary/30" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-amber-500/30 to-amber-700/30" />
       
       {/* Hero Image */}
       <div
         className="absolute inset-0 z-[-1] bg-cover bg-center"
         style={{
-          backgroundImage: "url(https://images.unsplash.com/photo-1556910096-5cdca75c3a57?q=80&w=2070)",
+          backgroundImage: "url(https://images.unsplash.com/photo-1501432781167-c0ccfd492297?q=80&w=2070)",
         }}
       />
       
@@ -31,7 +31,7 @@ export function Hero() {
             <Button
               asChild
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              className="bg-amber-500 text-white hover:bg-amber-600"
             >
               <Link to="/products">
                 Shop Now <ArrowRight className="ml-2 h-4 w-4" />
