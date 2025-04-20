@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -23,7 +22,9 @@ import {
   ShieldCheck,
   CheckCircle,
   Mail,
-  Smartphone
+  Smartphone,
+  Truck,
+  Cash
 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,6 +38,11 @@ const cardFormSchema = z.object({
 
 const upiFormSchema = z.object({
   upiId: z.string().regex(/^[\w\.\-]+@[\w\.\-]+$/, "Please enter a valid UPI ID (e.g., username@bank)"),
+});
+
+const codFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
 });
 
 export function PaymentForm() {
@@ -62,9 +68,16 @@ export function PaymentForm() {
       upiId: "",
     },
   });
-  
+
+  const codForm = useForm<z.infer<typeof codFormSchema>>({
+    resolver: zodResolver(codFormSchema),
+    defaultValues: {
+      name: user?.name || "",
+      phone: user?.phone || "",
+    },
+  });
+
   const onCardSubmit = (values: z.infer<typeof cardFormSchema>) => {
-    // Process credit card payment - in a real app, this would integrate with a payment gateway
     toast({
       title: "Payment Processed",
       description: "Your payment has been successfully processed!",
@@ -75,7 +88,6 @@ export function PaymentForm() {
   };
 
   const onUPISubmit = (values: z.infer<typeof upiFormSchema>) => {
-    // Process UPI payment - in a real app, this would integrate with a UPI payment gateway
     toast({
       title: "UPI Payment Initiated",
       description: "Please check your UPI app to complete the payment",
@@ -85,8 +97,17 @@ export function PaymentForm() {
     handlePaymentSuccess();
   };
 
+  const onCODSubmit = (values: z.infer<typeof codFormSchema>) => {
+    toast({
+      title: "Order Confirmed",
+      description: "Your Cash on Delivery order has been placed successfully!",
+      duration: 3000,
+    });
+    
+    handlePaymentSuccess();
+  };
+
   const handlePaymentSuccess = () => {
-    // Send verification email to user
     if (user && user.email) {
       console.log(`Sending purchase confirmation email to ${user.email}`);
       
@@ -109,9 +130,7 @@ export function PaymentForm() {
   };
 
   React.useEffect(() => {
-    // Check if shipping details exist
     if (!shippingDetails && cartItems.length > 0) {
-      // Redirect back to checkout if no shipping details
       navigate("/checkout");
     }
   }, [shippingDetails, navigate, cartItems]);
@@ -130,18 +149,22 @@ export function PaymentForm() {
       <div className="md:col-span-2">
         <Card className="p-6">
           <Tabs defaultValue="card" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="card" className="flex items-center gap-2">
                 <CreditCard className="h-4 w-4" />
-                Card Payment
+                Card
               </TabsTrigger>
               <TabsTrigger value="upi" className="flex items-center gap-2">
                 <Smartphone className="h-4 w-4" />
-                UPI Payment
+                UPI
+              </TabsTrigger>
+              <TabsTrigger value="cod" className="flex items-center gap-2">
+                <Cash className="h-4 w-4" />
+                Cash on Delivery
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="card" className="mt-4">
+            <TabsContent value="card">
               <Form {...cardForm}>
                 <form onSubmit={cardForm.handleSubmit(onCardSubmit)} className="space-y-6">
                   <FormField
@@ -222,7 +245,7 @@ export function PaymentForm() {
               </Form>
             </TabsContent>
 
-            <TabsContent value="upi" className="mt-4">
+            <TabsContent value="upi">
               <Form {...upiForm}>
                 <form onSubmit={upiForm.handleSubmit(onUPISubmit)} className="space-y-6">
                   <FormField
@@ -256,6 +279,60 @@ export function PaymentForm() {
                     </Button>
                     <Button type="submit">
                       Pay with UPI
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </TabsContent>
+
+            <TabsContent value="cod" className="mt-4">
+              <Form {...codForm}>
+                <form onSubmit={codForm.handleSubmit(onCODSubmit)} className="space-y-6">
+                  <FormField
+                    control={codForm.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={codForm.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="1234567890" type="tel" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div className="flex items-center mt-4 p-4 bg-muted/50 rounded-md">
+                    <Truck className="text-primary mr-2" size={20} />
+                    <p className="text-sm text-muted-foreground">
+                      Pay in cash at the time of delivery
+                    </p>
+                  </div>
+                  
+                  <div className="flex justify-between mt-6">
+                    <Button 
+                      type="button" 
+                      variant="outline"
+                      onClick={() => navigate("/checkout")}
+                    >
+                      Back to Shipping
+                    </Button>
+                    <Button type="submit">
+                      Place Order
                     </Button>
                   </div>
                 </form>
