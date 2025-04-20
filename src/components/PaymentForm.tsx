@@ -24,7 +24,7 @@ import {
   Mail,
   Smartphone,
   Truck,
-  Cash
+  DollarSign
 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -159,7 +159,7 @@ export function PaymentForm() {
                 UPI
               </TabsTrigger>
               <TabsTrigger value="cod" className="flex items-center gap-2">
-                <Cash className="h-4 w-4" />
+                <DollarSign className="h-4 w-4" />
                 Cash on Delivery
               </TabsTrigger>
             </TabsList>
