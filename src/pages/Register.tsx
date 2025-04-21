@@ -31,7 +31,7 @@ const formSchema = z.object({
   pinCode: z.string().min(5, "PIN code must be at least 5 characters"),
 });
 
-// This type ensures all fields are required, matching what UserContext expects
+// This ensures that all fields are required and match what UserContext expects
 type FormValues = z.infer<typeof formSchema>;
 
 const Register = () => {
@@ -56,7 +56,16 @@ const Register = () => {
     try {
       setIsSubmitting(true);
       // Now the values object will have all required properties
-      await register(values);
+      // Explicitly casting to ensure TypeScript treats all fields as required
+      await register({
+        username: values.username,
+        password: values.password,
+        email: values.email,
+        name: values.name,
+        phone: values.phone,
+        address: values.address,
+        pinCode: values.pinCode
+      });
       navigate("/profile");
     } catch (error) {
       console.error("Registration error:", error);
