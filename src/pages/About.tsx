@@ -105,7 +105,7 @@ const About = () => {
               <p className="text-muted-foreground">We stick to authentic recipes straight from Bihar, handed down generations—no artificial flavors, ever.</p>
             </div>
             <div className="bg-white/90 rounded-xl p-8 shadow text-center hover:scale-105 transition-transform">
-              <Bowl className="w-10 h-10 mx-auto text-amber-700 mb-3" />
+              <ChefHat className="w-10 h-10 mx-auto text-amber-700 mb-3" />
               <h3 className="font-semibold text-xl text-amber-900 mb-2">Warm Bihari Hospitality</h3>
               <p className="text-muted-foreground">Snacks here aren’t just food—they’re about warmth, sharing, and memories. We’re delighted to deliver a taste of home to your door.</p>
             </div>
@@ -174,4 +174,3 @@ const About = () => {
 };
 
 export default About;
-
