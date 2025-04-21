@@ -6,19 +6,19 @@ import { Link } from "react-router-dom";
 import {
   Utensils,
   Cookie,
-  Bowl,
+  ChefHat,
   Salad,
   CakeSlice,
   Sandwich,
   Carrot,
-  Nut,
+  Apple,
 } from "lucide-react";
 
 const bihariSnacks = [
   {
     name: "Litti Chokha",
     desc: "A classic Bihari dish featuring roasted wheat balls stuffed with spicy sattu, served with mashed veggies.",
-    icon: <Bowl className="w-8 h-8 text-amber-700" />,
+    icon: <ChefHat className="w-8 h-8 text-amber-700" />,
   },
   {
     name: "Thekua",
@@ -38,7 +38,7 @@ const bihariSnacks = [
   {
     name: "Chana Chiwda",
     desc: "Roasted chickpea mix with flattened rice, peanuts, and spices—a crunchy namkeen favorite.",
-    icon: <Nut className="w-8 h-8 text-amber-700" />,
+    icon: <Apple className="w-8 h-8 text-amber-700" />,
   },
   {
     name: "Aloo Bhujia",
