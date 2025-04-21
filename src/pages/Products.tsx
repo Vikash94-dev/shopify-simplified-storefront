@@ -4,7 +4,7 @@ import { NavigationMenu } from "@/components/ui/NavigationMenu";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { ProductCard } from "@/components/ProductCard";
 import { getProductsByCategory } from "@/lib/data";
-import { Sliders, Grid3X3, List } from "lucide-react";
+import { Sliders, Grid3X3, List, IndianRupee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Products = () => {
@@ -23,89 +23,71 @@ const Products = () => {
           
           <div className="flex flex-col md:flex-row gap-8">
             {/* Sidebar / Filters */}
-            <div className="w-full md:w-64 flex-shrink-0">
+            <div className="w-full md:w-72 flex-shrink-0">
               <div className="sticky top-24">
                 <div className="flex items-center gap-2 mb-6">
-                  <Sliders size={18} />
+                  <Sliders size={18} className="text-primary" />
                   <h2 className="text-xl font-bold">Filters</h2>
                 </div>
-                
-                <CategoryFilter 
-                  selectedCategory={selectedCategory} 
-                  onSelectCategory={setSelectedCategory} 
-                />
-                
-                {/* Price Range Filter */}
-                <div className="mb-8">
-                  <h2 className="text-lg font-semibold mb-4">Price Range</h2>
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="price-1" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="price-1">Under $25</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="price-2" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="price-2">$25 - $50</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="price-3" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="price-3">$50 - $100</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="price-4" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="price-4">Over $100</label>
+                {/* Filters redesigned as cards */}
+                <div className="space-y-4">
+
+                  {/* Category Filter */}
+                  <div className="rounded-2xl p-5 bg-[#F1F0FB] shadow border border-[#E5DEFF]">
+                    <CategoryFilter 
+                      selectedCategory={selectedCategory} 
+                      onSelectCategory={setSelectedCategory} 
+                    />
+                  </div>
+
+                  {/* Price Range Filter */}
+                  <div className="rounded-2xl p-5 bg-[#F2FCE2] shadow border border-[#D6BCFA]">
+                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <IndianRupee size={18} className="text-[#9b87f5]" />
+                      Price Range
+                    </h2>
+                    <div className="space-y-2">
+                      <div className="flex items-center">
+                        <input 
+                          type="checkbox" 
+                          id="price-1" 
+                          className="mr-2 accent-[#9b87f5]"
+                        />
+                        <label htmlFor="price-1">Under ₹200</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input 
+                          type="checkbox" 
+                          id="price-2" 
+                          className="mr-2 accent-[#9b87f5]"
+                        />
+                        <label htmlFor="price-2">₹200 - ₹500</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input 
+                          type="checkbox" 
+                          id="price-3" 
+                          className="mr-2 accent-[#9b87f5]"
+                        />
+                        <label htmlFor="price-3">₹500 - ₹1,000</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input 
+                          type="checkbox" 
+                          id="price-4" 
+                          className="mr-2 accent-[#9b87f5]"
+                        />
+                        <label htmlFor="price-4">Over ₹1,000</label>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Apply Button */}
+                  <Button className="w-full bg-primary rounded-xl shadow hover:bg-primary/90 transition">
+                    Apply Filters
+                  </Button>
+
                 </div>
-                
-                {/* Product Type Filter */}
-                <div className="mb-8">
-                  <h2 className="text-lg font-semibold mb-4">Product Type</h2>
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="type-1" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="type-1">New Arrivals</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="type-2" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="type-2">Featured</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="type-3" 
-                        className="mr-2"
-                      />
-                      <label htmlFor="type-3">On Sale</label>
-                    </div>
-                  </div>
-                </div>
-                
-                <Button className="w-full">Apply Filters</Button>
               </div>
             </div>
             
@@ -147,7 +129,7 @@ const Products = () => {
               ) : (
                 <div className="space-y-4">
                   {products.map((product) => (
-                    <div key={product.id} className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div key={product.id} className="flex items-center gap-4 p-4 border rounded-lg bg-[#F1F0FB] shadow-sm">
                       <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
                         <img 
                           src={product.imageUrl} 
@@ -161,8 +143,11 @@ const Products = () => {
                           {product.description}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold">${product.price.toFixed(2)}</p>
+                      <div className="text-right min-w-[80px]">
+                        <p className="font-bold flex items-center justify-end gap-1 text-[#1A1F2C]">
+                          <IndianRupee size={16} className="inline-block text-[#9b87f5]" />
+                          {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                        </p>
                         <Button size="sm" className="mt-2">Add to Cart</Button>
                       </div>
                     </div>

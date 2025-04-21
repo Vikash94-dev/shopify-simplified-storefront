@@ -5,7 +5,7 @@ import { Product } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, IndianRupee } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
@@ -60,7 +60,10 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </Link>
         </h3>
-        <p className="mt-1 text-lg font-semibold">${product.price.toFixed(2)}</p>
+        <p className="mt-1 text-lg font-semibold flex items-center gap-1 text-[#1A1F2C]">
+          <IndianRupee size={16} className="inline-block text-[#9b87f5]" />
+          {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+        </p>
       </div>
     </div>
   );
