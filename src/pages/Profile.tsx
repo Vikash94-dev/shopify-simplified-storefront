@@ -29,11 +29,13 @@ import { useNavigate } from "react-router-dom";
 import { User, Package, Mail, AlertTriangle, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+// Add email to the schema so it is included in the form.
 const profileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   address: z.string().min(5, "Address must be at least 5 characters"),
   pinCode: z.string().min(5, "PIN code must be at least 5 characters"),
+  email: z.string().email("Invalid email address"),
 });
 
 const Profile = () => {
@@ -48,6 +50,7 @@ const Profile = () => {
       phone: user?.phone || "",
       address: user?.address || "",
       pinCode: user?.pinCode || "",
+      email: user?.email || "",
     },
   });
   
@@ -174,6 +177,19 @@ const Profile = () => {
                           />
                           <FormField
                             control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
                             name="phone"
                             render={({ field }) => (
                               <FormItem>
@@ -271,3 +287,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
