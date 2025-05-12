@@ -23,7 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group relative">
       {/* Product Image with Link */}
-      <Link to={`/product/${product.id}`} className="block overflow-hidden rounded-lg bg-gray-100 h-64">
+      <Link to={`/product/${product.id}`} className="block overflow-hidden rounded-lg bg-gray-100 h-64 relative">
         <img 
           src={product.imageUrl}
           alt={product.name}
@@ -40,12 +40,12 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
         
-        {/* Quick add button */}
-        <div className="absolute bottom-2 right-2 opacity-0 transform translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
+        {/* Quick add button - repositioned to bottom center with overlay background */}
+        <div className="absolute bottom-0 left-0 right-0 bg-black/40 p-2 opacity-0 transform translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
           <Button
             size="sm"
             onClick={handleAddToCart}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-1"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center gap-1"
           >
             <ShoppingCart size={16} />
             Add to Cart
@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
       
-      {/* Product Info */}
+      {/* Product Info - now completely separate from the hover element */}
       <div className="mt-3">
         <h3 className="text-sm font-medium">
           <Link to={`/product/${product.id}`} className="hover:text-primary">
